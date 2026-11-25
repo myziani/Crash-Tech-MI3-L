@@ -1,0 +1,28 @@
+# Compilateur et option d'avertissement
+CC = gcc
+CFLAGS = -Wall
+
+# Nom de l'executable attendu par le sujet
+EXEC = crashTech
+
+# Recuperation automatique de tous les fichiers .c et .h
+SRC = $(wildcard *.c)
+HDR = $(wildcard *.h)
+
+# Substitution : transforme la liste des .c en liste de .o
+OBJ = $(SRC:.c=.o)
+
+# Premiere cible executee quand on tape "make"
+all: $(EXEC)
+
+# Compilation separee : genere chaque .o a partir de son .c
+%.o: %.c $(HDR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Edition de liens : assemble tous les .o pour creer l'executable
+$(EXEC): $(OBJ)
+	$(CC) $^ -o $@
+
+# Nettoyage des fichiers generes a la compilation
+clean:
+	rm -f *.o $(EXEC)
